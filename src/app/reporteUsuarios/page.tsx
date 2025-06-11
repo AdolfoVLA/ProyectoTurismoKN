@@ -13,14 +13,18 @@ const ReporteUsuarios: React.FC = () =>{
     useEffect(()=> {
             const obtenerUsuarios = async () =>{
                 const respuesta = await axios.get<ReporteUsuariosOut>("https://adolfoturismo-vlabk-bk-70126068bd2b.herokuapp.com/api/route/Obtener_Usuarios");
-
+                
                 if(respuesta.data.codigoRespuesta === 0){
+                    
                     setUsuarios(respuesta.data.detalle);
                 }
             }
-
             obtenerUsuarios();
     }, [])
+
+    useEffect(()=>{
+        console.log(usuarios)
+    }, [usuarios])
 
 
     const usuarioFiltrados = useMemo(()=>{
@@ -28,7 +32,7 @@ const ReporteUsuarios: React.FC = () =>{
                                       || usuario.correo.toUpperCase().includes(filtro.toUpperCase())
                                       || usuario.telefono.toUpperCase().includes(filtro.toUpperCase())
                                       || ObtenerNombreRol(usuario.rol).toUpperCase().includes(filtro.toUpperCase()))
-    }, [filtro])
+    }, [filtro, usuarios])
 
     function ObtenerNombreRol (rol: number){
 
